@@ -31,6 +31,8 @@ import com.google.common.base.Strings;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.BufferedInputStream;
@@ -83,9 +85,11 @@ public class RestBaseController extends BaseController {
             redirectUrl += request.getQueryString();
         }
         LOG.info("redirect url: {}", redirectUrl);
+
         RedirectView redirectView = new RedirectView(redirectUrl);
+        request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
         redirectView.setContentType("text/html;charset=utf-8");
-        redirectView.setStatusCode(org.springframework.http.HttpStatus.TEMPORARY_REDIRECT);
+//        redirectView.setStatusCode(org.springframework.http.HttpStatus.TEMPORARY_REDIRECT);
         return redirectView;
     }
 
